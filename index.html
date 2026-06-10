@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Apex Striker Technologies — Salesforce AppExchange Products</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Salesforce+Sans:wght@300;400;500;700&family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      /* Salesforce-inspired color palette */
+      --sf-blue: #0176D3;
+      --sf-blue-dark: #014486;
+      --sf-blue-darker: #032D60;
+      --sf-blue-light: #1B96FF;
+      --sf-navy: #061C3F;
+      --sf-cloud: #EEF4FF;
+      --sf-cloud-light: #F3F7FB;
+      --sf-success: #2E844A;
+      --sf-orange: #FE9339;
+      --sf-white: #FFFFFF;
+      --sf-gray-100: #F3F3F3;
+      --sf-gray-200: #E5E5E5;
+      --sf-gray-300: #C9C9C9;
+      --sf-gray-400: #939393;
+      --sf-gray-500: #706E6B;
+      --sf-gray-700: #3E3E3C;
+      --sf-gray-900: #181818;
+      --sf-text: #181818;
+      --sf-text-light: #706E6B;
+      --sf-radius: 0.75rem;
+      --sf-radius-lg: 1rem;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+    body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; color: var(--sf-text); background: var(--sf-white); line-height: 1.6; }
+    ::selection { background: #B9D4F1; color: var(--sf-blue-darker); }
+    a { text-decoration: none; color: inherit; }
+    img { max-width: 100%; }
+
+    /* Container */
+    .container { max-width: 72rem; margin: 0 auto; padding: 0 1.5rem; }
+    .container-narrow { max-width: 64rem; margin: 0 auto; padding: 0 1.5rem; }
+
+    /* Section label */
+    .section-label { font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; font-weight: 500; letter-spacing: 0.15em; text-transform: uppercase; color: var(--sf-blue); display: inline-flex; align-items: center; gap: 0.5rem; }
+    .section-label::before { content: ''; width: 1.5rem; height: 2px; background: var(--sf-blue); border-radius: 1px; }
+
+    /* Animations */
+    @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes float { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-8px); } }
+    @keyframes pulse-glow { 0%, 100% { box-shadow: 0 0 0 0 rgba(1,118,211,0.3); } 50% { box-shadow: 0 0 20px 4px rgba(1,118,211,0.15); } }
+    @keyframes spin-slow { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+    .animate-in { animation: fadeInUp 0.6s ease-out both; }
+    .delay-1 { animation-delay: 0.1s; }
+    .delay-2 { animation-delay: 0.2s; }
+    .delay-3 { animation-delay: 0.3s; }
+    .delay-4 { animation-delay: 0.4s; }
+
+    /* ========== NAVBAR ========== */
+    .navbar { position: fixed; top: 0; left: 0; right: 0; z-index: 50; background: rgba(255,255,255,0.95); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border-bottom: 1px solid rgba(0,0,0,0.06); transition: all 0.3s; }
+    .navbar-inner { display: flex; align-items: center; justify-content: space-between; height: 4.25rem; }
+    .logo { display: flex; align-items: center; gap: 0.75rem; }
+    .logo-mark { position: relative; width: 2.25rem; height: 2.25rem; flex-shrink: 0; }
+    .logo-mark svg { width: 100%; height: 100%; }
+    .logo-text { display: flex; flex-direction: column; line-height: 1.1; }
+    .logo-text .company-name { font-weight: 700; color: var(--sf-navy); font-size: 0.95rem; letter-spacing: -0.02em; }
+    .logo-text .company-tag { font-size: 0.6rem; color: var(--sf-gray-400); font-weight: 500; letter-spacing: 0.05em; text-transform: uppercase; }
+    .nav-links { display: flex; align-items: center; gap: 0.25rem; }
+    .nav-links a { font-size: 0.85rem; color: var(--sf-gray-500); padding: 0.5rem 0.875rem; border-radius: 0.5rem; transition: all 0.2s; font-weight: 500; }
+    .nav-links a:hover { color: var(--sf-blue); background: var(--sf-cloud); }
+    .nav-cta-wrap { display: flex; align-items: center; gap: 0.75rem; }
+    .btn-sf { display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; padding: 0.6rem 1.25rem; border-radius: 0.5rem; font-size: 0.8rem; font-weight: 600; transition: all 0.2s; border: none; cursor: pointer; }
+    .btn-sf-primary { background: var(--sf-blue); color: white; }
+    .btn-sf-primary:hover { background: var(--sf-blue-dark); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(1,118,211,0.3); }
+    .btn-sf-outline { background: transparent; color: var(--sf-blue); border: 1.5px solid var(--sf-blue); }
+    .btn-sf-outline:hover { background: var(--sf-cloud); }
+    .mobile-toggle { display: none; padding: 0.5rem; border: none; background: none; cursor: pointer; color: var(--sf-gray-500); border-radius: 0.5rem; }
+    .mobile-toggle:hover { color: var(--sf-blue); background: var(--sf-cloud); }
+    .mobile-menu { display: none; border-top: 1px solid var(--sf-gray-100); padding: 1rem 0; flex-direction: column; gap: 0.25rem; }
+    .mobile-menu a { padding: 0.75rem 1rem; font-size: 0.9rem; color: var(--sf-gray-700); border-radius: 0.5rem; font-weight: 500; }
+    .mobile-menu a:hover { background: var(--sf-cloud); color: var(--sf-blue); }
+
+    @media (max-width: 768px) {
+      .nav-links, .nav-cta-wrap { display: none !important; }
+      .mobile-toggle { display: flex; }
+      .mobile-menu.open { display: flex; }
+    }
+
+    /* ========== HERO ========== */
+    .hero { position: relative; padding: 7.5rem 0 5rem; overflow: hidden; background: linear-gradient(180deg, var(--sf-cloud) 0%, white 100%); }
+    .hero-bg-pattern { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+    .hero-bg-pattern::before { content: ''; position: absolute; top: -50%; right: -20%; width: 70%; height: 150%; border-radius: 50%; background: radial-gradient(circle, rgba(1,118,211,0.06) 0%, transparent 70%); }
+    .hero-bg-pattern::after { content: ''; position: absolute; bottom: -30%; left: -10%; width: 50%; height: 100%; border-radius: 50%; background: radial-gradient(circle, rgba(254,147,57,0.04) 0%, transparent 70%); }
+    /* Floating football */
+    .hero-football { position: absolute; top: 12%; right: 8%; width: 60px; height: 60px; animation: float 4s ease-in-out infinite; opacity: 0.08; }
+    .hero-football-2 { position: absolute; bottom: 20%; right: 15%; width: 35px; height: 35px; animation: float 5s ease-in-out infinite 1s; opacity: 0.05; }
+
+    .hero .container { position: relative; display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 4rem; align-items: center; }
+    .hero-content { }
+    .hero-badge { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.4rem 1rem 0.4rem 0.5rem; border-radius: 9999px; background: white; border: 1px solid rgba(1,118,211,0.15); font-size: 0.75rem; font-weight: 600; color: var(--sf-blue); margin-bottom: 1.75rem; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
+    .hero-badge-icon { width: 1.5rem; height: 1.5rem; border-radius: 50%; background: var(--sf-blue); display: flex; align-items: center; justify-content: center; }
+    .hero-badge-icon svg { width: 10px; height: 10px; }
+    .hero h1 { font-size: clamp(2.5rem, 4.5vw, 3.5rem); font-weight: 800; letter-spacing: -0.03em; color: var(--sf-navy); line-height: 1.08; margin-bottom: 1.5rem; }
+    .hero h1 .gradient-text { background: linear-gradient(135deg, var(--sf-blue) 0%, var(--sf-blue-light) 50%, var(--sf-orange) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .hero-sub { font-size: 1.125rem; color: var(--sf-gray-500); line-height: 1.7; max-width: 32rem; margin-bottom: 2rem; font-weight: 400; }
+    .hero-ctas { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-bottom: 2.5rem; }
+    .hero-ctas .btn-sf { padding: 0.75rem 1.75rem; font-size: 0.875rem; border-radius: 0.625rem; }
+    .hero-stats { display: flex; gap: 2.5rem; padding-top: 2rem; border-top: 1px solid var(--sf-gray-200); }
+    .hero-stat { }
+    .hero-stat-value { font-size: 1.5rem; font-weight: 800; color: var(--sf-navy); }
+    .hero-stat-label { font-size: 0.75rem; color: var(--sf-gray-400); font-weight: 500; }
+
+    /* Hero visual — product card */
+    .hero-visual { position: relative; }
+    .product-preview { background: white; border-radius: var(--sf-radius-lg); border: 1px solid rgba(0,0,0,0.08); box-shadow: 0 20px 60px rgba(3,45,96,0.08), 0 1px 3px rgba(0,0,0,0.04); overflow: hidden; animation: pulse-glow 4s ease-in-out infinite; }
+    .product-preview-header { background: linear-gradient(135deg, var(--sf-blue-darker) 0%, var(--sf-blue) 100%); padding: 1.5rem 1.75rem; color: white; }
+    .product-preview-header .pp-badge { display: inline-flex; align-items: center; gap: 0.375rem; padding: 0.25rem 0.625rem; border-radius: 9999px; background: rgba(255,255,255,0.15); font-size: 0.65rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 0.75rem; }
+    .product-preview-header h3 { font-size: 1.25rem; font-weight: 700; margin-bottom: 0.25rem; }
+    .product-preview-header p { font-size: 0.8rem; opacity: 0.8; font-weight: 400; }
+    .product-preview-body { padding: 1.5rem 1.75rem; }
+    .pp-feature { display: flex; align-items: flex-start; gap: 0.75rem; padding: 0.75rem 0; }
+    .pp-feature:not(:last-child) { border-bottom: 1px solid var(--sf-gray-100); }
+    .pp-feature-icon { width: 2rem; height: 2rem; border-radius: 0.5rem; background: var(--sf-cloud); display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: var(--sf-blue); }
+    .pp-feature-text h4 { font-size: 0.8rem; font-weight: 600; color: var(--sf-gray-900); margin-bottom: 0.125rem; }
+    .pp-feature-text p { font-size: 0.7rem; color: var(--sf-gray-400); }
+    .pp-footer { padding: 1rem 1.75rem; background: var(--sf-cloud-light); border-top: 1px solid var(--sf-gray-100); display: flex; align-items: center; justify-content: space-between; }
+    .pp-footer-status { display: flex; align-items: center; gap: 0.375rem; font-size: 0.7rem; font-weight: 600; color: var(--sf-success); }
+    .pp-footer-status::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--sf-success); }
+    .pp-footer-link { font-size: 0.7rem; font-weight: 600; color: var(--sf-blue); }
+
+    @media (max-width: 768px) {
+      .hero .container { grid-template-columns: 1fr; gap: 2.5rem; }
+      .hero-visual { max-width: 28rem; }
+      .hero-stats { gap: 1.5rem; }
+      .hero-football, .hero-football-2 { display: none; }
+    }
+
+    /* ========== ABOUT ========== */
+    .about { padding: 6rem 0; background: white; }
+    .about-top { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; margin-bottom: 3.5rem; align-items: end; }
+    .about-top h2 { font-size: clamp(1.75rem, 3vw, 2.5rem); font-weight: 700; letter-spacing: -0.025em; color: var(--sf-navy); line-height: 1.15; }
+    .about-top p { color: var(--sf-gray-500); font-size: 1.05rem; line-height: 1.7; }
+    .capabilities-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.25rem; }
+    .capability-card { background: white; border: 1px solid var(--sf-gray-200); border-radius: var(--sf-radius); padding: 1.75rem 1.5rem; transition: all 0.3s; position: relative; overflow: hidden; }
+    .capability-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--sf-blue); transform: scaleX(0); transition: transform 0.3s; transform-origin: left; }
+    .capability-card:hover { border-color: var(--sf-blue); box-shadow: 0 8px 30px rgba(1,118,211,0.08); transform: translateY(-2px); }
+    .capability-card:hover::before { transform: scaleX(1); }
+    .capability-icon { width: 2.75rem; height: 2.75rem; border-radius: 0.625rem; background: var(--sf-cloud); display: flex; align-items: center; justify-content: center; color: var(--sf-blue); margin-bottom: 1.25rem; }
+    .capability-card h3 { font-weight: 600; color: var(--sf-navy); margin-bottom: 0.5rem; font-size: 0.95rem; }
+    .capability-card p { font-size: 0.8rem; color: var(--sf-gray-500); line-height: 1.6; }
+
+    @media (max-width: 900px) { .capabilities-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 640px) { 
+      .capabilities-grid { grid-template-columns: 1fr; }
+      .about-top { grid-template-columns: 1fr; gap: 1rem; }
+    }
+
+    /* ========== PRODUCTS (Access Analyzer) ========== */
+    .products { padding: 6rem 0; background: var(--sf-cloud-light); }
+    .products-header { text-align: center; max-width: 40rem; margin: 0 auto 3.5rem; }
+    .products-header h2 { font-size: clamp(1.75rem, 3vw, 2.5rem); font-weight: 700; letter-spacing: -0.025em; color: var(--sf-navy); margin-top: 0.75rem; margin-bottom: 1rem; }
+    .products-header p { color: var(--sf-gray-500); font-size: 1.05rem; line-height: 1.7; }
+
+    .product-showcase { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center; background: white; border-radius: var(--sf-radius-lg); border: 1px solid rgba(0,0,0,0.06); overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.04); }
+    .product-info { padding: 3rem; }
+    .product-tag { display: inline-flex; align-items: center; gap: 0.375rem; padding: 0.3rem 0.75rem; border-radius: 9999px; background: #FFF3E0; color: #E65100; font-size: 0.7rem; font-weight: 600; letter-spacing: 0.03em; text-transform: uppercase; margin-bottom: 1.25rem; }
+    .product-tag svg { width: 12px; height: 12px; }
+    .product-info h3 { font-size: 1.75rem; font-weight: 700; color: var(--sf-navy); margin-bottom: 0.5rem; letter-spacing: -0.02em; }
+    .product-info .product-subtitle { font-size: 0.95rem; color: var(--sf-blue); font-weight: 500; margin-bottom: 1rem; }
+    .product-info .product-desc { font-size: 0.95rem; color: var(--sf-gray-500); line-height: 1.7; margin-bottom: 1.75rem; }
+    .product-features { list-style: none; margin-bottom: 2rem; }
+    .product-features li { display: flex; align-items: center; gap: 0.75rem; padding: 0.5rem 0; font-size: 0.875rem; color: var(--sf-gray-700); font-weight: 500; }
+    .product-features li .check { width: 1.25rem; height: 1.25rem; border-radius: 50%; background: #E8F5E9; display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: var(--sf-success); }
+    .product-visual { background: linear-gradient(135deg, var(--sf-blue-darker) 0%, var(--sf-blue) 60%, var(--sf-blue-light) 100%); padding: 3rem; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 28rem; position: relative; overflow: hidden; }
+    .product-visual::before { content: ''; position: absolute; top: -50%; right: -50%; width: 100%; height: 100%; border-radius: 50%; background: rgba(255,255,255,0.03); }
+    .pv-icon { width: 5rem; height: 5rem; border-radius: 1.25rem; background: rgba(255,255,255,0.12); backdrop-filter: blur(10px); display: flex; align-items: center; justify-content: center; margin-bottom: 1.5rem; border: 1px solid rgba(255,255,255,0.15); }
+    .pv-icon svg { width: 2.5rem; height: 2.5rem; color: white; }
+    .pv-title { color: white; font-size: 1.25rem; font-weight: 700; text-align: center; margin-bottom: 0.5rem; }
+    .pv-subtitle { color: rgba(255,255,255,0.7); font-size: 0.85rem; text-align: center; margin-bottom: 2rem; }
+    .pv-metrics { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; width: 100%; max-width: 16rem; }
+    .pv-metric { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.1); border-radius: 0.625rem; padding: 0.875rem; text-align: center; }
+    .pv-metric-value { font-size: 1.25rem; font-weight: 800; color: white; }
+    .pv-metric-label { font-size: 0.6rem; color: rgba(255,255,255,0.6); font-weight: 500; text-transform: uppercase; letter-spacing: 0.05em; }
+
+    @media (max-width: 768px) {
+      .product-showcase { grid-template-columns: 1fr; }
+      .product-visual { min-height: 20rem; }
+    }
+
+    /* ========== FOCUS ========== */
+    .focus { padding: 6rem 0; background: white; }
+    .focus-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+    .focus h2 { font-size: clamp(1.75rem, 3vw, 2.5rem); font-weight: 700; letter-spacing: -0.025em; color: var(--sf-navy); margin-bottom: 1.25rem; }
+    .focus-text p { color: var(--sf-gray-500); line-height: 1.7; margin-bottom: 1.25rem; font-size: 1rem; }
+
+    .status-card { border-radius: var(--sf-radius-lg); border: 1px solid var(--sf-gray-200); background: white; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.04); }
+    .status-card-header { padding: 0.875rem 1.5rem; border-bottom: 1px solid var(--sf-gray-100); display: flex; align-items: center; gap: 0.75rem; background: var(--sf-cloud-light); }
+    .dots { display: flex; gap: 0.375rem; }
+    .dots span { width: 0.7rem; height: 0.7rem; border-radius: 50%; }
+    .dots span:nth-child(1) { background: #FF6058; }
+    .dots span:nth-child(2) { background: #FFBD2E; }
+    .dots span:nth-child(3) { background: #27CA40; }
+    .status-card-header .filename { font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; color: var(--sf-gray-400); }
+    .status-card-body { padding: 1.25rem 1.5rem; font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; line-height: 1.8; }
+    .json-key { color: var(--sf-blue); }
+    .json-str { color: var(--sf-success); }
+    .json-punct { color: var(--sf-gray-300); }
+    .json-line { padding-left: 1.5rem; }
+    .json-nested { padding-left: 3rem; }
+    .status-active { color: var(--sf-success); display: inline-flex; align-items: center; gap: 0.375rem; }
+    .status-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--sf-success); display: inline-block; animation: pulse-glow 2s ease-in-out infinite; }
+
+    @media (max-width: 768px) {
+      .focus-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+    }
+
+    /* ========== CONTACT ========== */
+    .contact { padding: 6rem 0; background: var(--sf-cloud-light); }
+    .contact-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; }
+    .contact-left h2 { font-size: clamp(1.75rem, 3vw, 2.5rem); font-weight: 700; letter-spacing: -0.025em; color: var(--sf-navy); margin-bottom: 1rem; }
+    .contact-left > p { color: var(--sf-gray-500); font-size: 1.05rem; line-height: 1.7; margin-bottom: 2rem; }
+    .contact-cta-box { background: white; border-radius: var(--sf-radius); padding: 1.5rem; border: 1px solid var(--sf-gray-200); }
+    .contact-cta-box p { font-size: 0.85rem; color: var(--sf-gray-500); margin-bottom: 1rem; }
+
+    .contact-grid { display: flex; flex-direction: column; gap: 0.75rem; }
+    .contact-card { display: flex; align-items: center; gap: 1rem; padding: 1.125rem 1.25rem; border-radius: var(--sf-radius); border: 1px solid var(--sf-gray-200); background: white; transition: all 0.25s; }
+    .contact-card:hover { border-color: var(--sf-blue); box-shadow: 0 4px 16px rgba(1,118,211,0.08); transform: translateX(4px); }
+    .contact-card.placeholder { opacity: 0.45; cursor: default; }
+    .contact-card.placeholder:hover { border-color: var(--sf-gray-200); box-shadow: none; transform: none; }
+    .contact-icon { width: 2.5rem; height: 2.5rem; border-radius: 0.625rem; background: var(--sf-cloud); display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: var(--sf-blue); }
+    .contact-card.placeholder .contact-icon { color: var(--sf-gray-300); }
+    .contact-label { font-size: 0.7rem; color: var(--sf-gray-400); margin-bottom: 0.125rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.03em; }
+    .contact-value { font-size: 0.85rem; font-weight: 600; color: var(--sf-navy); }
+    .contact-card.placeholder .contact-value { color: var(--sf-gray-400); font-style: italic; font-weight: 400; }
+    .contact-arrow { margin-left: auto; color: var(--sf-gray-300); flex-shrink: 0; transition: all 0.2s; }
+    .contact-card:hover .contact-arrow { color: var(--sf-blue); transform: translateX(2px); }
+
+    @media (max-width: 768px) {
+      .contact-inner { grid-template-columns: 1fr; gap: 2.5rem; }
+    }
+
+    /* ========== FOOTER ========== */
+    .footer { background: var(--sf-navy); color: white; padding: 3rem 0 2rem; }
+    .footer-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 2rem; padding-bottom: 2rem; border-bottom: 1px solid rgba(255,255,255,0.08); margin-bottom: 1.5rem; }
+    .footer-brand { display: flex; align-items: center; gap: 0.75rem; }
+    .footer-logo-mark svg { width: 2rem; height: 2rem; }
+    .footer-brand-text .ft-name { font-weight: 700; font-size: 0.95rem; }
+    .footer-brand-text .ft-tag { font-size: 0.65rem; color: rgba(255,255,255,0.4); font-weight: 400; }
+    .footer-links { display: flex; gap: 2rem; }
+    .footer-links a { font-size: 0.8rem; color: rgba(255,255,255,0.5); transition: color 0.2s; font-weight: 500; }
+    .footer-links a:hover { color: white; }
+    .footer-bottom { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; }
+    .footer-copy { font-size: 0.7rem; color: rgba(255,255,255,0.3); }
+    .footer-domain { font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; color: rgba(255,255,255,0.3); transition: color 0.2s; }
+    .footer-domain:hover { color: rgba(255,255,255,0.6); }
+
+    @media (max-width: 640px) {
+      .footer-top { flex-direction: column; }
+      .footer-bottom { flex-direction: column; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <header class="navbar">
+    <div class="container">
+      <div class="navbar-inner">
+        <a href="#" class="logo">
+          <div class="logo-mark">
+            <!-- Logo: Football-inspired "A" with ball as the hole in letter -->
+            <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <!-- Shield/hexagon shape -->
+              <rect width="36" height="36" rx="8" fill="#0176D3"/>
+              <!-- Letter A with football as the round part -->
+              <path d="M18 6L10 28h3.5l1.5-4h10l1.5 4H30L22 6h-4zm0 6.5L22.5 22h-9L18 12.5z" fill="white"/>
+              <!-- Football (soccer ball) replacing the triangle hole in A -->
+              <circle cx="18" cy="20" r="3.5" fill="#0176D3" stroke="white" stroke-width="1"/>
+              <path d="M18 16.8l1 1.5h-2l1-1.5zM15 19.5l1.2-0.8 0.3 1.5-1.5-0.7zM21 19.5l-1.2-0.8-0.3 1.5 1.5-0.7zM16.2 22.2l0.3-1.5 1.2 0.8-1.5 0.7zM19.8 22.2l-0.3-1.5-1.2 0.8 1.5 0.7z" fill="white" opacity="0.7"/>
+              <!-- Pentagon pattern on ball -->
+              <path d="M17.2 19l1.6 0 0.5 1.5-1.3 0.9-1.3-0.9z" fill="white" opacity="0.4"/>
+            </svg>
+          </div>
+          <div class="logo-text">
+            <span class="company-name">Apex Striker</span>
+            <span class="company-tag">Technologies</span>
+          </div>
+        </a>
+
+        <nav class="nav-links">
+          <a href="#about">About</a>
+          <a href="#products">Products</a>
+          <a href="#focus">Focus</a>
+          <a href="#contact">Contact</a>
+        </nav>
+
+        <div class="nav-cta-wrap">
+          <a href="#products" class="btn-sf btn-sf-outline">Our Products</a>
+          <a href="#contact" class="btn-sf btn-sf-primary">Get in Touch</a>
+        </div>
+
+        <button class="mobile-toggle" onclick="document.getElementById('mobile-menu').classList.toggle('open')" aria-label="Toggle menu">
+          <svg width="22" height="22" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" clip-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"/></svg>
+        </button>
+      </div>
+
+      <nav id="mobile-menu" class="mobile-menu">
+        <a href="#about" onclick="document.getElementById('mobile-menu').classList.remove('open')">About</a>
+        <a href="#products" onclick="document.getElementById('mobile-menu').classList.remove('open')">Products</a>
+        <a href="#focus" onclick="document.getElementById('mobile-menu').classList.remove('open')">Focus</a>
+        <a href="#contact" onclick="document.getElementById('mobile-menu').classList.remove('open')">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- ========== HERO ========== -->
+    <section class="hero" id="hero">
+      <div class="hero-bg-pattern"></div>
+      <!-- Floating footballs for subtle branding -->
+      <div class="hero-football">
+        <svg viewBox="0 0 60 60" fill="none"><circle cx="30" cy="30" r="28" stroke="currentColor" stroke-width="2"/><path d="M30 4l5 8h-10l5-8zM4 25l8 5-8 5V25zM56 25v10l-8-5 8-5zM30 56l-5-8h10l-5 8zM15 12l10 3-6 8-4-11zM45 12l-10 3 6 8 4-11zM15 48l4-11 6 8-10 3zM45 48l-4-11-6 8 10 3z" stroke="currentColor" stroke-width="1.5"/><path d="M22 18l16 0 5 12-8 10H25l-8-10z" stroke="currentColor" stroke-width="1.5"/></svg>
+      </div>
+      <div class="hero-football-2">
+        <svg viewBox="0 0 60 60" fill="none"><circle cx="30" cy="30" r="28" stroke="currentColor" stroke-width="2.5"/><path d="M22 18l16 0 5 12-8 10H25l-8-10z" stroke="currentColor" stroke-width="2"/></svg>
+      </div>
+
+      <div class="container">
+        <div class="hero-content animate-in">
+          <div class="hero-badge">
+            <span class="hero-badge-icon">
+              <svg viewBox="0 0 12 12" fill="none"><path d="M6 1l5 3v4l-5 3-5-3V4l5-3z" fill="white"/></svg>
+            </span>
+            Salesforce AppExchange Partner
+          </div>
+
+          <h1>
+            Building the Future of<br/>
+            <span class="gradient-text">Salesforce Innovation</span>
+          </h1>
+
+          <p class="hero-sub">
+            Apex Striker Technologies crafts powerful AppExchange products and 
+            Salesforce solutions that help businesses unlock their full platform potential.
+          </p>
+
+          <div class="hero-ctas">
+            <a href="#products" class="btn-sf btn-sf-primary">
+              Explore Products
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M7 2l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+            <a href="mailto:sourabh@apexstriker.tech?subject=Schedule%20a%20Discussion" class="btn-sf btn-sf-outline">
+              Schedule a Discussion
+            </a>
+          </div>
+
+          <div class="hero-stats">
+            <div class="hero-stat">
+              <div class="hero-stat-value">100%</div>
+              <div class="hero-stat-label">Salesforce Focused</div>
+            </div>
+            <div class="hero-stat">
+              <div class="hero-stat-value">ISV</div>
+              <div class="hero-stat-label">Partner Standard</div>
+            </div>
+            <div class="hero-stat">
+              <div class="hero-stat-value">1</div>
+              <div class="hero-stat-label">Product Launching</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Product Preview Card -->
+        <div class="hero-visual animate-in delay-2">
+          <div class="product-preview">
+            <div class="product-preview-header">
+              <div class="pp-badge">
+                <svg width="8" height="8" viewBox="0 0 8 8" fill="white"><circle cx="4" cy="4" r="3"/></svg>
+                First Product
+              </div>
+              <h3>Access Analyzer</h3>
+              <p>Salesforce Permission & Security Intelligence</p>
+            </div>
+            <div class="product-preview-body">
+              <div class="pp-feature">
+                <div class="pp-feature-icon">
+                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1v12M1 7h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                </div>
+                <div class="pp-feature-text">
+                  <h4>Permission Set Analysis</h4>
+                  <p>Deep visibility into who has access to what</p>
+                </div>
+              </div>
+              <div class="pp-feature">
+                <div class="pp-feature-icon">
+                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="1" y="1" width="12" height="12" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M4 7l2 2 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </div>
+                <div class="pp-feature-text">
+                  <h4>Security Health Score</h4>
+                  <p>Instant assessment of your org's security posture</p>
+                </div>
+              </div>
+              <div class="pp-feature">
+                <div class="pp-feature-icon">
+                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 10l3-3 2 2 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </div>
+                <div class="pp-feature-text">
+                  <h4>Compliance Reports</h4>
+                  <p>Audit-ready reports for governance teams</p>
+                </div>
+              </div>
+            </div>
+            <div class="pp-footer">
+              <span class="pp-footer-status">In Development</span>
+              <span class="pp-footer-link">Coming to AppExchange →</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== ABOUT ========== -->
+    <section class="about" id="about">
+      <div class="container">
+        <div class="about-top">
+          <div>
+            <p class="section-label" style="margin-bottom: 0.75rem;">About Us</p>
+            <h2>Salesforce expertise,<br/>product-first mindset</h2>
+          </div>
+          <p>
+            We are a Salesforce-focused technology company building AppExchange products 
+            and delivering enterprise-grade platform solutions. Our work spans from deep 
+            Apex development to marketplace-ready applications.
+          </p>
+        </div>
+
+        <div class="capabilities-grid">
+          <div class="capability-card">
+            <div class="capability-icon">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="1" y="1" width="18" height="18" rx="3" stroke="currentColor" stroke-width="1.5"/><path d="M6 10l3 3 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <h3>Apex Development</h3>
+            <p>Custom Apex classes, triggers, and Lightning Web Components built with ISV best practices.</p>
+          </div>
+
+          <div class="capability-card">
+            <div class="capability-icon">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 1L18 5.5V14.5L10 19L2 14.5V5.5L10 1Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M10 6L14 8.5V13.5L10 16L6 13.5V8.5L10 6Z" fill="currentColor" fill-opacity="0.1"/></svg>
+            </div>
+            <h3>AppExchange Products</h3>
+            <p>Designing managed packages for the Salesforce marketplace following security review standards.</p>
+          </div>
+
+          <div class="capability-card">
+            <div class="capability-icon">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="3" stroke="currentColor" stroke-width="1.5"/><path d="M10 1v3M10 16v3M1 10h3M16 10h3M3.5 3.5l2 2M14.5 14.5l2 2M3.5 16.5l2-2M14.5 5.5l2-2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+            </div>
+            <h3>Platform Customization</h3>
+            <p>Sales Cloud, Service Cloud, and Experience Cloud configurations aligned with your workflows.</p>
+          </div>
+
+          <div class="capability-card">
+            <div class="capability-icon">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 5h12M4 10h8M4 15h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="16" cy="10" r="3" stroke="currentColor" stroke-width="1.5"/></svg>
+            </div>
+            <h3>Automation & APIs</h3>
+            <p>Flow automation, REST/SOAP integrations connecting Salesforce with your entire tech stack.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== PRODUCTS — Access Analyzer ========== -->
+    <section class="products" id="products">
+      <div class="container">
+        <div class="products-header">
+          <p class="section-label">Our Products</p>
+          <h2>AppExchange Solutions</h2>
+          <p>Purpose-built Salesforce-native applications designed to solve real enterprise challenges.</p>
+        </div>
+
+        <div class="product-showcase">
+          <div class="product-info">
+            <div class="product-tag">
+              <svg viewBox="0 0 12 12" fill="none"><path d="M6 1l5 3v4l-5 3-5-3V4l5-3z" fill="currentColor"/></svg>
+              First Product
+            </div>
+            <h3>Access Analyzer</h3>
+            <p class="product-subtitle">Salesforce Permission & Security Intelligence</p>
+            <p class="product-desc">
+              Access Analyzer gives Salesforce admins and security teams complete visibility 
+              into user permissions, profile assignments, and security configurations — 
+              all within a single, intuitive interface.
+            </p>
+            <ul class="product-features">
+              <li>
+                <span class="check"><svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                Permission Set & Profile deep analysis
+              </li>
+              <li>
+                <span class="check"><svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                Object & field-level security visibility
+              </li>
+              <li>
+                <span class="check"><svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                User access comparison & audit trails
+              </li>
+              <li>
+                <span class="check"><svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                Compliance-ready exportable reports
+              </li>
+              <li>
+                <span class="check"><svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                100% Salesforce-native, no external data transfer
+              </li>
+            </ul>
+            <a href="#contact" class="btn-sf btn-sf-primary">
+              Get Early Access
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M7 2l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+          </div>
+
+          <div class="product-visual">
+            <div class="pv-icon">
+              <!-- Shield with magnifying glass -->
+              <svg viewBox="0 0 40 40" fill="none">
+                <path d="M20 3L6 10v10c0 8.5 6 16.5 14 19 8-2.5 14-10.5 14-19V10L20 3z" stroke="white" stroke-width="2" fill="white" fill-opacity="0.1"/>
+                <circle cx="18" cy="18" r="6" stroke="white" stroke-width="2"/>
+                <path d="M22.5 22.5L28 28" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <div class="pv-title">Access Analyzer</div>
+            <div class="pv-subtitle">Complete Permission Intelligence</div>
+            <div class="pv-metrics">
+              <div class="pv-metric">
+                <div class="pv-metric-value">360°</div>
+                <div class="pv-metric-label">Visibility</div>
+              </div>
+              <div class="pv-metric">
+                <div class="pv-metric-value">100%</div>
+                <div class="pv-metric-label">Native</div>
+              </div>
+              <div class="pv-metric">
+                <div class="pv-metric-value">Real</div>
+                <div class="pv-metric-label">Time Scan</div>
+              </div>
+              <div class="pv-metric">
+                <div class="pv-metric-value">1-Click</div>
+                <div class="pv-metric-label">Reports</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== FOCUS ========== -->
+    <section class="focus" id="focus">
+      <div class="container">
+        <div class="focus-grid">
+          <div class="focus-text">
+            <p class="section-label" style="margin-bottom: 0.75rem;">Current Focus</p>
+            <h2>Where we are now</h2>
+            <p>
+              We are actively building Access Analyzer — our first AppExchange product — 
+              and preparing it for Salesforce security review and marketplace launch.
+            </p>
+            <p>
+              As a newly launched company, our priority is delivering a product that meets 
+              the highest Salesforce ISV standards — clean architecture, comprehensive 
+              testing, and enterprise-grade security.
+            </p>
+          </div>
+
+          <div>
+            <div class="status-card">
+              <div class="status-card-header">
+                <div class="dots"><span></span><span></span><span></span></div>
+                <span class="filename">company-status.json</span>
+              </div>
+              <div class="status-card-body">
+                <div class="json-punct">{</div>
+                <div class="json-line">
+                  <span class="json-key">"company"</span><span class="json-punct">: </span><span class="json-str">"Apex Striker Technologies"</span><span class="json-punct">,</span>
+                </div>
+                <div class="json-line">
+                  <span class="json-key">"stage"</span><span class="json-punct">: </span><span class="json-str">"newly launched"</span><span class="json-punct">,</span>
+                </div>
+                <div class="json-line">
+                  <span class="json-key">"platform"</span><span class="json-punct">: </span><span class="json-str">"Salesforce"</span><span class="json-punct">,</span>
+                </div>
+                <div class="json-line">
+                  <span class="json-key">"firstProduct"</span><span class="json-punct">: </span><span class="json-str">"Access Analyzer"</span><span class="json-punct">,</span>
+                </div>
+                <div class="json-line">
+                  <span class="json-key">"building"</span><span class="json-punct">: [</span>
+                  <div class="json-nested"><span class="json-str">"AppExchange products"</span><span class="json-punct">,</span></div>
+                  <div class="json-nested"><span class="json-str">"Permission intelligence"</span><span class="json-punct">,</span></div>
+                  <div class="json-nested"><span class="json-str">"Security solutions"</span></div>
+                  <span class="json-punct" style="padding-left:1.5rem;">],</span>
+                </div>
+                <div class="json-line">
+                  <span class="json-key">"status"</span><span class="json-punct">: </span>
+                  <span class="status-active"><span class="status-dot"></span>"active"</span>
+                </div>
+                <div class="json-punct">}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== CONTACT ========== -->
+    <section class="contact" id="contact">
+      <div class="container">
+        <div class="contact-inner">
+          <div class="contact-left">
+            <p class="section-label" style="margin-bottom: 0.75rem;">Contact</p>
+            <h2>Let's connect</h2>
+            <p>
+              Whether you want early access to Access Analyzer, have a Salesforce 
+              challenge, or want to explore a partnership — we'd love to hear from you.
+            </p>
+            <div class="contact-cta-box">
+              <p>Ready to discuss your Salesforce needs?</p>
+              <a href="mailto:sourabh@apexstriker.tech?subject=Let's%20Connect" class="btn-sf btn-sf-primary" style="width:100%;">
+                Send us an email
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M7 2l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </a>
+            </div>
+          </div>
+
+          <div class="contact-grid">
+            <a href="mailto:sourabh@apexstriker.tech" class="contact-card">
+              <div class="contact-icon">
+                <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><rect x="1" y="3" width="16" height="12" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M1 6l8 5 8-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+              </div>
+              <div>
+                <p class="contact-label">Email</p>
+                <p class="contact-value">sourabh@apexstriker.tech</p>
+              </div>
+              <svg class="contact-arrow" width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M7 2l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+
+            <a href="https://apexstriker.tech" target="_blank" rel="noopener noreferrer" class="contact-card">
+              <div class="contact-icon">
+                <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="8" stroke="currentColor" stroke-width="1.5"/><path d="M1 9h16M9 1c-2 2-3 5-3 8s1 6 3 8M9 1c2 2 3 5 3 8s-1 6-3 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+              </div>
+              <div>
+                <p class="contact-label">Website</p>
+                <p class="contact-value">apexstriker.tech</p>
+              </div>
+              <svg class="contact-arrow" width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M7 2l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+
+            <div class="contact-card placeholder">
+              <div class="contact-icon">
+                <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><rect x="1" y="1" width="16" height="16" rx="3" stroke="currentColor" stroke-width="1.5"/><path d="M5 8v5M5 5.5v.5M8 13V9.5c0-1 .8-1.5 1.5-1.5S11 9 11 10v3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </div>
+              <div>
+                <p class="contact-label">LinkedIn</p>
+                <p class="contact-value">Coming soon</p>
+              </div>
+            </div>
+
+            <div class="contact-card placeholder">
+              <div class="contact-icon">
+                <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 1C4.58 1 1 4.58 1 9c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38v-1.33c-2.23.48-2.7-1.07-2.7-1.07-.36-.93-.89-1.17-.89-1.17-.73-.5.05-.49.05-.49.8.06 1.23.83 1.23.83.71 1.22 1.87.87 2.33.66.07-.52.28-.87.5-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82A7.7 7.7 0 019 5.83c.68 0 1.36.09 2 .27 1.52-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48v2.19c0 .21.15.46.55.38A8.013 8.013 0 0017 9c0-4.42-3.58-8-8-8z" fill="currentColor" fill-opacity="0.6"/></svg>
+              </div>
+              <div>
+                <p class="contact-label">AppExchange</p>
+                <p class="contact-value">Listing coming soon</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ========== FOOTER ========== -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <div class="footer-logo-mark">
+            <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect width="36" height="36" rx="8" fill="rgba(255,255,255,0.1)"/>
+              <path d="M18 6L10 28h3.5l1.5-4h10l1.5 4H30L22 6h-4zm0 6.5L22.5 22h-9L18 12.5z" fill="white" fill-opacity="0.9"/>
+              <circle cx="18" cy="20" r="3.5" fill="rgba(255,255,255,0.1)" stroke="white" stroke-width="1" stroke-opacity="0.5"/>
+              <path d="M17.2 19l1.6 0 0.5 1.5-1.3 0.9-1.3-0.9z" fill="white" fill-opacity="0.3"/>
+            </svg>
+          </div>
+          <div class="footer-brand-text">
+            <div class="ft-name">Apex Striker Technologies</div>
+            <div class="ft-tag">Salesforce AppExchange Products</div>
+          </div>
+        </div>
+        <div class="footer-links">
+          <a href="#about">About</a>
+          <a href="#products">Products</a>
+          <a href="#focus">Focus</a>
+          <a href="#contact">Contact</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p class="footer-copy">© 2026 Apex Striker Technologies Pvt. Ltd. All Rights Reserved.</p>
+        <a href="https://apexstriker.tech" target="_blank" rel="noopener noreferrer" class="footer-domain">apexstriker.tech</a>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
