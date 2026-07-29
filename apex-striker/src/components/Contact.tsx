@@ -1,8 +1,8 @@
 const contactLinks = [
   {
     label: "Email",
-    value: "sourabh@apexstriker.tech",
-    href: "mailto:sourabh@apexstriker.tech",
+    value: "contact@apexstriker.tech",
+    href: "mailto:contact@apexstriker.tech",
     icon: (
       <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
         <rect x="1" y="3" width="16" height="12" rx="2" stroke="currentColor" strokeWidth="1.5"/>
@@ -12,7 +12,7 @@ const contactLinks = [
   },
   {
     label: "Website",
-    value: "apexstriker.tech",
+    value: "https://apexstriker.tech",
     href: "https://apexstriker.tech",
     icon: (
       <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
